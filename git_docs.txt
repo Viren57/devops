@@ -1,0 +1,59 @@
+git commands:
+
+1. Configuring git account :   git config --global user.email "you@example.com"
+        		       git config --global user.name "Your Name"
+
+
+2. Initiallizing git directory : git init
+
+3. Status of files in that git initiallized directory: git status
+
+4. To stage or to add git files : git add . OR git add -A
+
+5. To save the git files in git file system : git commit -m "<custom message>"
+
+6. To add git repository in our command-line : git remote add origin "<URL to repository>"
+
+7. To push our changes into github : git push -u origin <branch name>
+
+8. To pull the updated files in our local repository : git pull <URL of link> OR git pull origin <branch name>
+
+   (git pull = git fetch + git merge)
+
+9. For parallel developement, to create branch : git branch <branch name>
+
+10. To list the git branches : git branch
+
+11. To delete a git branch : git branch -D <branch name>
+
+12. After creating a branch, to switch to that branch : git checkout <branch name>
+
+(In this scenerio, while switching from master branch to your newly created branch - last commit of your master branch becomes first commit of your new branch and changes done to one branch will not be reflected into another branch)
+
+13. To check history of repository : git log (git log will show only logs of particular branch which is currently checked out)
+
+14. To revert to a particular commit : git revert <commit id> (Take care of branch while git revert)
+
+15. If working in between multiple branches and don't want uncommited files of one branch to get reflected into another branch : git stash (git stash -u -> for untracked files)
+
+16. To get back on the changes after git stash OR to come back to previous working state which was just before git stash : git stash pop
+
+17. To check difference between 2 versions of a file : git diff <commit_id of version x(older commit)> <commit_id of version y(newer commit)>
+
+18. To compare my HEAD with current directory : git diff HEAD .
+
+19. To merge all the commits of new branch into master branch : git merge <new branch>
+
+20. To merge only the latest commit of new branch into master branch : git merge --squash <new branch>
+
+21. After this, important thing is that we need to commit these changes also : git commit -m "<commit message>"
+
+22. To bring the latest commit of one branch into another branch as base if there has been further commit after earlier base commit  : git rebase master(other branch than the current checked out branch)
+
+23. To remove git files from staging area : git reset 
+*******************************************************************************************************
+
+
+
+#!/bin/bash 
+docker run --rm -t -v ${WORKSPACE}:${WORKSPACE} -w ${WORKSPACE} --name test veren_yocto:second bash -c "cd test && source oe-init-build-env && bitbake core-image-minimal"

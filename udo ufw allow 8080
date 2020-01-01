@@ -1,0 +1,14 @@
+[0;1;32m●[0m jenkins.service - LSB: Start Jenkins at boot time
+   Loaded: loaded (/etc/init.d/jenkins; bad; vendor preset: enabled)
+   Active: [0;1;32mactive (exited)[0m since Kha 2019-12-26 00:00:28 +08; 1min 47s ago
+     Docs: man:systemd-sysv-generator(8)
+
+Dis 26 00:00:27 viren-HP-Laptop-15g-br0xx systemd[1]: Starting LSB: Start Jenkins at boot time...
+Dis 26 00:00:27 viren-HP-Laptop-15g-br0xx jenkins[15876]: Correct java version found
+Dis 26 00:00:27 viren-HP-Laptop-15g-br0xx jenkins[15876]:  * Starting Jenkins Automation Server jenkins
+Dis 26 00:00:27 viren-HP-Laptop-15g-br0xx su[15928]: Successful su for jenkins by root
+Dis 26 00:00:27 viren-HP-Laptop-15g-br0xx su[15928]: + ??? root:jenkins
+Dis 26 00:00:27 viren-HP-Laptop-15g-br0xx su[15928]: pam_unix(su:session): session opened for user jenkins by (uid=0)
+Dis 26 00:00:28 viren-HP-Laptop-15g-br0xx jenkins[15876]:    ...done.
+Dis 26 00:00:28 viren-HP-Laptop-15g-br0xx systemd[1]: Started LSB: Start Jenkins at boot time.
+Dis 26 00:01:56 viren-HP-Laptop-15g-br0xx systemd[1]: Started LSB: Start Jenkins at boot time.

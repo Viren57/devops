@@ -1,0 +1,281 @@
+MongoDB : One of the most popular NoSQL database is MongoDB.
+	  MongoDB stores data in JSON-like documents, which makes the database very flexible and scalable.
+	  Python needs a MongoDB driver (Pymongo) to access the MongoDB database.
+
+Steps & Commands for Pymongo :
+
+1. To install Pymongo : python -m pip install pymongo
+
+2. Creating a Database : 
+	
+	import pymongo
+
+	myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+
+	mydb = myclient["mydatabase"]
+
+
+3. List of your system's databases :
+
+	print(myclient.list_database_names())
+
+
+4. Check if Database Exists :
+
+	dblist = myclient.list_database_names()
+	if "mydatabase" in dblist:
+  		print("The database exists.")
+
+
+5. creating a Collection :
+
+	import pymongo
+
+	myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+	mydb = myclient["mydatabase"]
+
+	mycol = mydb["customers"]
+
+
+6. List of all collections in your database :
+
+	print(mydb.list_collection_names())
+
+
+7. Check if Collection Exists :
+
+	collist = mydb.list_collection_names()
+	if "customers" in collist:
+  		print("The collection exists.")
+
+
+8. Insert One Record into Collection :
+
+	mycol = mydb["customers"]
+
+	mydict = { "name": "John", "address": "Highway 37" }
+
+	x = mycol.insert_one(mydict)
+
+
+9. Return the id_Field of Inserted Collection :
+
+	mydict = { "name": "Peter", "address": "Lowstreet 27" }
+
+	x = mycol.insert_one(mydict)
+
+	print(x.inserted_id)
+
+
+10. Insert Multiple Records into Collection :
+
+	mycol = mydb["customers"]
+
+	mylist = [
+  	  { "name": "Amy", "address": "Apple st 652"},
+  	  { "name": "Hannah", "address": "Mountain 21"},
+       	  { "name": "Michael", "address": "Valley 345"}
+	]
+
+	x = mycol.insert_many(mylist)
+
+	#print list of the _id values of the inserted documents:
+	print(x.inserted_ids)
+
+
+11. Insert Multiple Records into Collection  with Specified IDs :
+
+	mycol = mydb["customers"]
+
+	mylist = [
+	  { "_id": 1, "name": "John", "address": "Highway 37"},
+	  { "_id": 2, "name": "Peter", "address": "Lowstreet 27"},
+	  { "_id": 3, "name": "Amy", "address": "Apple st 652"}
+	]
+
+	x = mycol.insert_many(mylist)
+
+	#print list of the _id values of the inserted documents:
+	print(x.inserted_ids)
+
+
+12. Find the first document in Collection :
+
+	mycol = mydb["customers"]
+
+	x = mycol.find_one()
+
+	print(x)
+
+
+13. Find all the documents in Collection :
+
+	mycol = mydb["customers"]
+
+	for x in mycol.find():
+  		print(x)
+
+
+14. Return only the names and addresses, not the _ids :
+
+	for x in mycol.find({},{ "_id": 0, "name": 1, "address": 1 }):
+	  print(x)
+
+
+
+15. To exclude "address" from the result : 
+
+	for x in mycol.find({},{ "address": 0 }):
+	  print(x) 
+
+
+(You get an error if you specify both 0 and 1 values in the same object (except if one of the fields is the _id field))   
+
+This will give error: 
+
+	for x in mycol.find({},{ "name": 1, "address": 0 }):
+	  print(x)
+
+
+16. Filter the Result :
+
+a).  Find document(s) with the address "Park Lane 38" :
+
+	mycol = mydb["customers"]
+
+	myquery = { "address": "Park Lane 38" }
+
+	mydoc = mycol.find(myquery)
+
+	for x in mydoc:
+	  print(x)
+
+
+b). Find documents where the address field starts with the letter "S" or higher (alphabetically), use the greater than modifier :
+
+	mycol = mydb["customers"]
+
+	myquery = { "address": { "$gt": "S" } }
+
+	mydoc = mycol.find(myquery)
+
+	for x in mydoc:
+	  print(x)
+
+
+c). To find only the documents where the "address" field starts with the letter "S", use the regular expression :
+
+
+	mycol = mydb["customers"]
+
+	myquery = { "address": { "$regex": "^S" } }
+
+	mydoc = mycol.find(myquery)
+
+	for x in mydoc:
+	  print(x)
+
+
+17. Sort the Result :
+
+a). Sort the result alphabetically by name :
+
+	mycol = mydb["customers"]
+
+	mydoc = mycol.find().sort("name")
+
+	for x in mydoc:
+	  print(x)
+
+
+b). Sort in Ascending Order :
+
+	mydoc = mycol.find().sort("name", 1)
+
+
+c). Sort in Descending Order :
+
+	mydoc = mycol.find().sort("name", -1) 
+
+
+
+18. Delete the Document :
+
+a). Delete the document with the address "Mountain 21" :
+
+	mycol = mydb["customers"]
+
+	myquery = { "address": "Mountain 21" }
+
+	mycol.delete_one(myquery)
+
+
+b). Delete all documents where the address starts with the letter S:
+
+	mycol = mydb["customers"]
+
+	myquery = { "address": {"$regex": "^S"} }
+
+	x = mycol.delete_many(myquery)
+
+	print(x.deleted_count, " documents deleted.")
+
+
+c). Delete all documents in Collection :
+
+	mycol = mydb["customers"]
+
+	x = mycol.delete_many({})
+
+	print(x.deleted_count, " documents deleted.")
+
+
+19. Delete or Drop a Collection :
+
+	mycol = mydb["customers"]
+
+	mycol.drop()
+
+
+20. Update Collection :
+
+a). Change the address from "Valley 345" to "Canyon 123" :
+
+	mycol = mydb["customers"]
+
+	myquery = { "address": "Valley 345" }
+	newvalues = { "$set": { "address": "Canyon 123" } }
+
+	mycol.update_one(myquery, newvalues)
+
+	#print "customers" after the update:
+	for x in mycol.find():
+	  print(x)
+
+
+b). Update all documents where the address starts with the letter "S" :
+
+	mycol = mydb["customers"]
+
+	myquery = { "address": { "$regex": "^S" } }
+	newvalues = { "$set": { "name": "Minnie" } }
+
+	x = mycol.update_many(myquery, newvalues)
+
+	print(x.modified_count, "documents updated.")
+
+
+
+21. Limit the result to only return 5 documents :
+
+	mycol = mydb["customers"]
+
+	myresult = mycol.find().limit(5)
+
+	#print the result:
+	for x in myresult:
+	  print(x) 
+
+
+
+ 
